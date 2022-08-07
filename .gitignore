@@ -2,3 +2,5 @@ target
 WixTools
 dist
 .vscode
+.DS_STORE
+node_modules
