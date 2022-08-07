@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
-        "lib":[
+        "lib": [
             "ES2021",
             "dom",
-            "dom.iterable"
+            "dom.iterable",
+            "deno.ns"
         ]
     }
 }

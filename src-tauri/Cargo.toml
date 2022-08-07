@@ -1,10 +1,10 @@
 [package]
-name = "tauri-deno-starter"
+name = "timey"
 version = "0.1.0"
-description = "Deno + Tauri app"
-authors = ["Denosaur"]
+description = "Timey application helping keep time via stopwatches"
+authors = ["Jon Johnson"]
 license = ""
-repository = "https://github.com/marc2332/tauri-deno-starter"
+repository = "https://github.com/jonjohnsontc/timey-gui"
 edition = "2021"
 
 [build-dependencies]
