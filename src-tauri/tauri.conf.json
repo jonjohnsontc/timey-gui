@@ -3,7 +3,7 @@
     "beforeBuildCommand": "cd vite-frontend && pnpm run build",
     "beforeDevCommand": "cd vite-frontend && pnpm run dev",
     "devPath": "http://localhost:5173",
-    "distDir": "../dist"
+    "distDir": "../vite-frontend/dist"
   },
   "package": {
     "productName": "tauri-demo",
