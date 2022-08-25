@@ -1,0 +1,56 @@
+.toolbar-btn {
+  border: none;
+  background-color: transparent;
+}
+
+.ping {
+  -webkit-animation: ping 0.8s ease-in-out 1 both;
+  animation: ping 0.8s ease-in-out 1 both;
+}
+
+.pulsate-bck {
+  -webkit-animation: pulsate-bck 0.5s ease-out 1 both;
+  animation: pulsate-bck 0.5s ease-out 1 both;
+}
+
+.all-timers-btn {
+  width: 3.5em;
+}
+
+.play-btn {
+  width: 4.5em;
+  margin-left: 2em;
+}
+
+.save-btn {
+  width: 5em;
+}
+
+.delete-btn {
+  width: 4em;
+}
+
+.new-timer-btn {
+  width: 7em;
+}
+
+.restart-btn {
+  width: 4em;
+}
+
+.stats-btn {
+  width: 3em;
+}
+
+.edit-btn {
+  width: 3.5em;
+  margin-left: 2em;
+}
+
+.disabled {
+  opacity: 40%;
+}
+
+.pause-btn {
+  width: 4em;
+}

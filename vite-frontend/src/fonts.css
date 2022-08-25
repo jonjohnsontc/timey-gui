@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Inter";
+  src: url(assets/Inter/static/Inter-Regular.ttf) format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MPlusRoundedC";
+  src: url(assets/MPlusRoundedC/MPLUSRounded1c-ExtraBold.woff2) format("woff");
+  font-weight: bold;
+  font-style: normal;
+}

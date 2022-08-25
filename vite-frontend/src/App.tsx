@@ -1,19 +1,21 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { Route, Routes } from "react-router";
 import "./App.css";
 
-function App(props: { timerName: string }) {
-  const [count, setCount] = useState(0);
+import { NewTimer } from "./routes/newTimer";
+import { TimerMain } from "./routes/Timer";
 
-  const title = props.timerName;
-  const timer = "3:54";
-
-  return (
-    <div className="App">
-      <div className="timer-title">{title}</div>
-      <div className="timer-time">{timer}</div>
-    </div>
+function App() {
+  const routes = (
+    <Routes>
+      <Route path="/" element={<NewTimer length="00:00" />} />
+      <Route path="/timer" element={<TimerMain length="00:00" />} />
+      <Route path="/newTimer" element={<NewTimer length="00:00" />} />
+      <Route path="/stats" />
+    </Routes>
   );
+
+  return <div className="App">{routes}</div>;
 }
 
 export default App;
