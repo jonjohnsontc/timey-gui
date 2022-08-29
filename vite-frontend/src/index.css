@@ -10,6 +10,11 @@ textarea {
   font-size: 100%;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+}
+
 /* For the time and timer-name inputs, we want to make sure they're flat and 'app-like' */
 input {
   -webkit-appearence: none;

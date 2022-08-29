@@ -1,46 +1,7 @@
 import "./toolbar-btns.css";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 
-// root path of the icons file
-const iconsLoc = "/src/assets/icons.svg#";
-
-interface BtnProps {
-  // TODO: 'name' has no function right now
-  name: string;
-  icon: string;
-  disabled?: boolean;
-  action?: () => void;
-  cls?: string;
-}
-
-function ToolbarBtn(props: BtnProps) {
-  let cls = props.cls;
-
-  // Controls whether or not the button "bounces"
-  const [animated, setAnimated] = useState(false);
-  let onClick, onAnimationEnd;
-  if (props.disabled) {
-    onClick = () => {};
-    onAnimationEnd = () => {};
-    cls += " disabled";
-  } else {
-    onClick = () => setAnimated(() => true);
-    onAnimationEnd = () => setAnimated(() => false);
-  }
-
-  return (
-    <button className="toolbar-btn" onClick={props.action}>
-      <svg
-        // Each button has a ping animation to feel more alive
-        className={animated ? cls + " pulsate-bck" : cls}
-        onClick={onClick}
-        onAnimationEnd={onAnimationEnd}
-      >
-        <use href={`${iconsLoc}${props.icon}`}></use>
-      </svg>
-    </button>
-  );
-}
+import { Button } from "../Button";
 
 /*
  * Each of the buttons that makes up the toolbar:
@@ -56,21 +17,22 @@ function ToolbarBtn(props: BtnProps) {
 interface ToolbarBtnProps {
   onClick?: () => void;
   disabled?: boolean;
+  link?: ReactElement;
 }
 
 function DeleteBtn(props: ToolbarBtnProps) {
   return (
-    <ToolbarBtn name="x" icon="x-lg" cls="delete-btn" action={props.onClick} />
+    <Button name="x" icon="x-lg" cls="delete-btn" action={props.onClick} />
   );
 }
 
 const AllTimersBtn = (
-  <ToolbarBtn name="all-timers" icon="all-timers" cls="all-timers-btn" />
+  <Button name="all-timers" icon="all-timers" cls="all-timers-btn" />
 );
 
 function PlayBtn(props: ToolbarBtnProps) {
   return (
-    <ToolbarBtn
+    <Button
       name="play"
       icon="caret-right-fill"
       cls="play-btn"
@@ -82,18 +44,19 @@ function PlayBtn(props: ToolbarBtnProps) {
 
 function SaveBtn(props: ToolbarBtnProps) {
   return (
-    <ToolbarBtn
+    <Button
       name="save"
       icon="check-lg"
       cls="save-btn"
       action={props.onClick}
+      link={props.link}
     />
   );
 }
 
 function NewTimerBtn(props: ToolbarBtnProps) {
   return (
-    <ToolbarBtn
+    <Button
       name="new-timer"
       icon="plus"
       cls="new-timer-btn"
@@ -104,7 +67,7 @@ function NewTimerBtn(props: ToolbarBtnProps) {
 
 function RestartBtn(props: ToolbarBtnProps) {
   return (
-    <ToolbarBtn
+    <Button
       name="restart"
       icon="arrow-clockwise"
       cls="restart-btn"
@@ -114,12 +77,12 @@ function RestartBtn(props: ToolbarBtnProps) {
 }
 
 const StatsBtn = (
-  <ToolbarBtn name="stats" icon="bar-chart-line-fill" cls="stats-btn" />
+  <Button name="stats" icon="bar-chart-line-fill" cls="stats-btn" />
 );
 
 function PauseBtn(props: ToolbarBtnProps) {
   return (
-    <ToolbarBtn
+    <Button
       name="pause"
       icon="pause-fill"
       cls="pause-btn"
@@ -130,7 +93,7 @@ function PauseBtn(props: ToolbarBtnProps) {
 
 function EditBtn(props: ToolbarBtnProps) {
   return (
-    <ToolbarBtn
+    <Button
       name="edit"
       icon="pen-fill"
       cls="edit-btn"
@@ -142,7 +105,7 @@ function EditBtn(props: ToolbarBtnProps) {
 
 export {
   AllTimersBtn,
-  ToolbarBtn,
+  Button,
   DeleteBtn,
   PlayBtn,
   SaveBtn,
@@ -152,4 +115,3 @@ export {
   PauseBtn,
   EditBtn,
 };
-export type { BtnProps };

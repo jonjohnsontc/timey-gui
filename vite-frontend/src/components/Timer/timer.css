@@ -1,12 +1,13 @@
 .timer {
+  margin-top: 2em;
   display: flex;
   flex-direction: column;
-  margin-top: 4em;
 }
 
 .timer-header {
   display: flex;
   justify-content: center;
+  margin-bottom: 2em;
 }
 
 .timer-name {
@@ -14,6 +15,10 @@
   font-weight: bold;
   font-size: 2em;
   max-width: 5em;
+}
+
+.timer-mins {
+  /* font-size: 1.2em; */
 }
 
 .timer-mins:disabled {
@@ -26,9 +31,7 @@
 
 .timer-time {
   font-family: "Inter", sans-serif;
-  margin-top: 1em;
   font-size: 5em;
-  background-color: aliceblue;
 }
 
 .timer-time > input {

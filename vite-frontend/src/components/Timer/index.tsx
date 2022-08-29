@@ -1,4 +1,6 @@
 import { ReactElement, useState } from "react";
+
+import { Up, Down } from "../TimerBtns";
 import "./timer.css";
 
 interface TimerProps {
@@ -15,43 +17,53 @@ interface TimerProps {
  *
  * */
 function Timer(props: TimerProps) {
-  const [minsVal, secsVal] = props.length.split(":");
+  const getTime = (num: Number) => {
+    if (num < 10) {
+      return "0" + num.toString();
+    } else {
+      return num.toString();
+    }
+  };
+
+  const [minsVal, secsVal] = props.length.split(":").map((x) => Number(x));
+  const [time, setTime] = useState({ mins: minsVal, secs: secsVal });
+
+  const minsField = <span className="timer-mins">{getTime(time.mins)}</span>;
+  const secsField = <span className="timer-secs">{getTime(time.secs)}</span>;
 
   let titleField: ReactElement;
-  let minsField: ReactElement;
-  let secsField: ReactElement;
+  let up: ReactElement | undefined;
+  let down: ReactElement | undefined;
+
+  const increment = () => {
+    if (time.mins < 100) {
+      setTime({ ...time, mins: time.mins + 1 });
+    }
+  };
+
+  const decrement = () => {
+    if (time.mins > 0) {
+      setTime({ ...time, mins: time.mins - 1 });
+    }
+  };
+
   if (props.saved) {
+    up = undefined;
+    down = undefined;
     // TODO: Want an easy way to name unnamed timers
     titleField = <span>{props.name || "1"}</span>;
-    minsField = <span className="timer-mins">{minsVal}</span>;
-    secsField = <span className="timer-secs">{secsVal}</span>;
   } else {
+    up = <Up onClick={() => increment()} />;
+    down = <Down onClick={() => decrement()} />;
     titleField = (
       <input type="text" name="name" id="name" className="timer-name" />
-    );
-    minsField = (
-      <input
-        type="text"
-        name="timer-mins"
-        id="timer-mins"
-        maxLength={2}
-        defaultValue={minsVal}
-      />
-    );
-    secsField = (
-      <input
-        type="text"
-        name="timer-secs"
-        id="timer-secs"
-        maxLength={2}
-        defaultValue={secsVal}
-      />
     );
   }
 
   return (
     <div className="timer">
       <div className="timer-header">{titleField}</div>
+      {up}
       <div className="container">
         <div className="timer-time">
           {minsField}
@@ -59,6 +71,7 @@ function Timer(props: TimerProps) {
           {secsField}
         </div>
       </div>
+      {down}
     </div>
   );
 }

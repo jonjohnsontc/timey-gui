@@ -1,16 +1,17 @@
+/* TODO: doesn't do anything, inherits automatically from button in index */
 .toolbar-btn {
   border: none;
   background-color: transparent;
 }
 
 .ping {
-  -webkit-animation: ping 0.8s ease-in-out 1 both;
-  animation: ping 0.8s ease-in-out 1 both;
+  -webkit-animation: ping 0.2s ease-in-out 1 both;
+  animation: ping 0.2s ease-in-out 1 both;
 }
 
 .pulsate-bck {
-  -webkit-animation: pulsate-bck 0.5s ease-out 1 both;
-  animation: pulsate-bck 0.5s ease-out 1 both;
+  -webkit-animation: pulsate-bck 100ms ease-out 1 both;
+  animation: pulsate-bck 100ms ease-out 1 both;
 }
 
 .all-timers-btn {
@@ -23,11 +24,15 @@
 }
 
 .save-btn {
-  width: 5em;
+  width: 3em;
+  margin-bottom: -1.5em;
+  margin-top: -2.5em;
 }
 
 .delete-btn {
-  width: 4em;
+  width: 3em;
+  margin-bottom: -1.5em;
+  margin-top: -2.5em;
 }
 
 .new-timer-btn {
