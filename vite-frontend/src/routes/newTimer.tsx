@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Timer } from "../components/Timer";
 import { Toolbar } from "../components/Toolbar";
@@ -8,6 +8,12 @@ interface NewTimerProps {
   name?: string;
   // The default value to set a timer at
   length: string;
+}
+
+// Event used to load standard timer view
+function goToTimer(props: { length: string; name: string }) {
+  const nav = useNavigate();
+  nav(`/timer?t=${props.length}&n=${props.name}`);
 }
 
 /**
@@ -25,11 +31,8 @@ function NewTimer(props: NewTimerProps) {
     name = "1";
   }
 
-  if (props.length) {
-    saveEl = <Link to={`/timer?t=${props.length}&n=${name}`} />;
-  } else {
-    saveEl = undefined;
-  }
+  saveEl = <Link to={`/timer?t=${props.length}&n=${name}`} />;
+
   return (
     <>
       <Timer saved={false} length={props.length} />

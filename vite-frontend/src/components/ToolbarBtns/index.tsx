@@ -15,9 +15,9 @@ import { Button } from "../Button";
  * */
 
 interface ToolbarBtnProps {
-  onClick?: () => void;
+  onClick?: any; // onClick function to pass through to original element
   disabled?: boolean;
-  link?: ReactElement;
+  link?: JSX.Element; // The idea of this was a Link element
 }
 
 function DeleteBtn(props: ToolbarBtnProps) {
@@ -61,6 +61,7 @@ function NewTimerBtn(props: ToolbarBtnProps) {
       icon="plus"
       cls="new-timer-btn"
       action={props.onClick}
+      link={props.link}
     />
   );
 }

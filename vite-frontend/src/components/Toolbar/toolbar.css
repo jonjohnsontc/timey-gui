@@ -2,3 +2,8 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.toolbar-btn {
+  width: 3em;
+  height: 3em;
+}

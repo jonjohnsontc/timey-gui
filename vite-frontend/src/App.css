@@ -1,0 +1,46 @@
+.timers {
+  display: grid;
+  margin-top: 4vh;
+  margin-left: 2vw;
+  height: 93vh;
+  width: 93vw;
+  grid-template:
+    "d d d d" 0.5fr
+    "z a a b" 3fr
+    "c c c c" 1fr;
+  /* I have no idea how to apply this column restriction to
+  the grid-template, lol  */
+  grid-template-columns: 200px 200px 200px;
+}
+
+.timer {
+  grid-area: a;
+}
+
+.timer-picker {
+  grid-area: b;
+}
+
+.toolbar {
+  grid-area: c;
+}
+
+.timer-header {
+  grid-area: d;
+}
+
+/* This is just a placeholder area to space elements properly
+in the grid. */
+.timer-sidebar {
+  grid-area: z;
+}
+
+/* These are rules specific to buttons */
+:disabled > .time-button {
+  color: transparent;
+}
+
+.time-button {
+  width: 3em;
+  height: 3em;
+}

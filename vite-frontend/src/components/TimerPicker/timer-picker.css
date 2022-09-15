@@ -1,0 +1,53 @@
+.timer-picker {
+  display: grid;
+  grid-template:
+    "a" 1fr
+    "b" 1fr
+    "c" 1fr;
+}
+
+/* standard dot in the timer-picker */
+.dot {
+  /* margin-top: 1em; */
+  margin-left: 2em;
+  color: rgba(0, 0, 0, 0.333);
+  width: 5rem;
+  height: 4rem;
+  grid-area: b;
+}
+
+.dot-new {
+  -webkit-animation: pulsate-fwd 1s ease-in-out infinite both;
+  animation: pulsate-fwd 1s ease-in-out infinite both;
+}
+
+.dot-active {
+  color: rgba(0, 0, 0, 0.97);
+  width: 6rem;
+  height: 5rem;
+}
+
+.timer-picker-up {
+  width: 1em;
+  height: 1em;
+  grid-area: a;
+}
+
+:disabled .timer-picker-up {
+  color: transparent;
+}
+
+.timer-picker-down {
+  width: 1em;
+  height: 1em;
+  grid-area: c;
+}
+
+:disabled .timer-picker-down {
+  color: transparent;
+}
+
+.pulsate-fwd {
+  -webkit-animation: pulsate-fwd 1s ease-in-out infinite both;
+  animation: pulsate-fwd 1s ease-in-out infinite both;
+}

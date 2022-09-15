@@ -1,17 +1,14 @@
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 
 // root path of the icons file
 const iconsLoc = "/src/assets/icons.svg#";
 
 interface BtnProps {
-  // TODO: 'name' has no function right now
-  name: string;
-  icon: string;
-  disabled?: boolean;
-  action?: () => void | (() => void[]);
-  onAnimationEnd?: () => void | (() => void[]);
-  cls?: string;
-  link?: ReactElement;
+  icon: string; // the id of the icon in the iconsLoc file
+  disabled?: boolean; // disabled buttons are greyed out
+  action?: any; // onClick fn
+  onAnimationEnd?: any; // onAnimationEnd additions
+  cls?: string; // additional classes
 }
 
 function Button(props: BtnProps) {
@@ -60,15 +57,17 @@ function Button(props: BtnProps) {
   }
 
   return (
-    <button onClick={props.action}>
+    <button
+      onClick={props.disabled ? undefined : props.action}
+      disabled={props.disabled}
+    >
       <svg
         // Each button has a pulsate animation to feel more alive
         className={animated ? cls + " pulsate-bck" : cls}
-        onClick={() => _onClick()}
+        onClick={props.disabled ? undefined : () => _onClick()}
         onAnimationEnd={() => _onAnimationEnd()}
       >
         <use href={`${iconsLoc}${props.icon}`}></use>
-        {props.link ? props.link : null}
       </svg>
     </button>
   );

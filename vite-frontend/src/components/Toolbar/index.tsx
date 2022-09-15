@@ -1,40 +1,92 @@
-import { ReactNode } from "react";
 import "./toolbar.css";
+import { Button } from "../Button";
+import { TimerStates } from "../TimerStates";
 
-// root path of the icons file
-const iconsLoc = "/src/assets/icons.svg#";
-
-interface ToolbarProps {
-  left: ReactNode;
-  right: ReactNode;
-  middle?: ReactNode;
-}
 /**
- * Displays three buttons, which can change depending on its state.
- * The buttons align with either an action, a view, or both
+ * Displays buttons that allow the user to interact with the associated Timer component.
  *
+ * Each button comes with an associated OnClick prop to pass functionality down from
+ * the Tmer app
  * */
-export function Toolbar(props: ToolbarProps) {
-  // Using this to display a blank space where a button would
-  // be to maintain spacing
-  const blankElement = (
-    <svg className="blank-btn">
-      <use href={`${iconsLoc}another-icon`} />
-    </svg>
-  );
-
-  let middle: ReactNode;
-  if (props.middle) {
-    middle = props.middle;
-  } else {
-    middle = blankElement;
+function Toolbar(props: {
+  state: TimerStates;
+  playOnClick: any;
+  pauseOnClick: any;
+  restartOnClick: any;
+  deleteOnClick: any;
+  editOnClick: any;
+  saveOnClick: any;
+  newOnClick: any;
+}) {
+  /**
+   * Either the delete or edit button, depending on the timer's state
+   */
+  function LeftBtn() {
+    switch (props.state) {
+      case "UNSAVED":
+        return (
+          <Button
+            cls="toolbar-btn"
+            icon="delete"
+            action={props.deleteOnClick}
+          />
+        );
+      case "RUNNING":
+        return (
+          <Button cls="toolbar-btn" icon="edit" action={props.editOnClick} />
+        );
+      default:
+        return <Button cls="toolbar-btn" icon="edit" disabled={true} />;
+    }
+  }
+  /**
+   * Several possible states: Restart | Pause | Play | blank
+   */
+  function CenterBtn() {
+    switch (props.state) {
+      case "UNSAVED":
+        return null;
+      case "PAUSED":
+        return (
+          <Button cls="toolbar-btn" icon="play" action={props.playOnClick} />
+        );
+      case "RUNNING":
+        return (
+          <Button cls="toolbar-btn" icon="pause" action={props.pauseOnClick} />
+        );
+      default:
+        return (
+          <Button
+            cls="toolbar-btn"
+            icon="restart"
+            action={props.restartOnClick}
+          />
+        );
+    }
   }
 
+  /**
+   * Either a save or new button based on state
+   */
+  function RightBtn() {
+    switch (props.state) {
+      case "UNSAVED":
+        return (
+          <Button cls="toolbar-btn" icon="save" action={props.saveOnClick} />
+        );
+      default:
+        return (
+          <Button cls="toolbar-btn" icon="new" action={props.newOnClick} />
+        );
+    }
+  }
   return (
     <footer className="toolbar">
-      {props.left}
-      {middle}
-      {props.right}
+      <LeftBtn />
+      <CenterBtn />
+      <RightBtn />
     </footer>
   );
 }
+
+export { Toolbar };
