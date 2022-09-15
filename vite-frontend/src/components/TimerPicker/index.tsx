@@ -71,7 +71,7 @@ function TimerPicker(props: TimerPickerProps) {
         cls="timer-picker-up"
         disabled={props.disabled}
       />
-      <ul>{dotArray}</ul>
+      <ul className="dot-array">{dotArray}</ul>
       <Button
         icon="chevron-down"
         action={props.upClick}

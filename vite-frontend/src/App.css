@@ -2,15 +2,15 @@
   display: grid;
   margin-top: 4vh;
   margin-left: 2vw;
-  height: 93vh;
-  width: 93vw;
+  height: 91vh;
+  width: 91vw;
   grid-template:
     "d d d d" 0.5fr
     "z a a b" 3fr
     "c c c c" 1fr;
   /* I have no idea how to apply this column restriction to
   the grid-template, lol  */
-  grid-template-columns: 200px 200px 200px;
+  grid-template-columns: repeat(4, 190px);
 }
 
 .timer {

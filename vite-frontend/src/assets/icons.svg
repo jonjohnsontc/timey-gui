@@ -82,7 +82,7 @@
   <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
 </symbol>
 
-<symbol id="dot" fill="currentColor" >
+<symbol id="dot" fill="currentColor" viewBox="0 0 10 10">
   <circle cx="5" cy="5" r="5" />
 </symbol>
 

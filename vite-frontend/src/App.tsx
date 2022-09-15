@@ -8,7 +8,6 @@ import { TimerPicker } from "./components/TimerPicker";
 import { Button } from "./components/Button";
 import { Toolbar } from "./components/Toolbar";
 import { TimerStates } from "./components/TimerStates";
-import { Down } from "./components/TimerBtns";
 
 // Represents a timer for the top-level timers component
 interface Timey {

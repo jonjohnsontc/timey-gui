@@ -1,5 +1,7 @@
 .timer-picker {
   display: grid;
+  height: 60vh;
+  row-gap: 3em;
   grid-template:
     "a" 1fr
     "b" 1fr
@@ -8,11 +10,9 @@
 
 /* standard dot in the timer-picker */
 .dot {
-  /* margin-top: 1em; */
-  margin-left: 2em;
   color: rgba(0, 0, 0, 0.333);
-  width: 5rem;
-  height: 4rem;
+  width: 0.7rem;
+  height: 0.7rem;
   grid-area: b;
 }
 
@@ -23,8 +23,12 @@
 
 .dot-active {
   color: rgba(0, 0, 0, 0.97);
-  width: 6rem;
-  height: 5rem;
+}
+
+.dot-array {
+  display: flex;
+  flex-direction: column;
+  padding-inline-start: 90px;
 }
 
 .timer-picker-up {
@@ -34,7 +38,7 @@
 }
 
 :disabled .timer-picker-up {
-  color: transparent;
+  /* color: transparent; */
 }
 
 .timer-picker-down {
@@ -44,7 +48,7 @@
 }
 
 :disabled .timer-picker-down {
-  color: transparent;
+  /* color: transparent; */
 }
 
 .pulsate-fwd {
