@@ -88,7 +88,8 @@ function secsToTime(secs: number) {
   min = parseInt(min) < 10 ? "0" + min : min;
   sec = parseInt(sec) < 10 ? "0" + sec : sec;
 
-  return `${hr}:${min}:${sec}`;
+  // TODO: add back in hr
+  return `${min}:${sec}`;
 }
 
 function getTime(num: Number) {
@@ -99,4 +100,4 @@ function getTime(num: Number) {
   }
 }
 
-export { convertToSecs, getTime };
+export { convertToSecs, getTime, secsToTime };

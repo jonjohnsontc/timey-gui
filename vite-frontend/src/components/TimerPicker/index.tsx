@@ -63,6 +63,7 @@ function TimerPicker(props: TimerPickerProps) {
       />
     );
   }
+
   return (
     <div className="timer-picker">
       <Button

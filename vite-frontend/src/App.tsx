@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 
 import { useEventListener } from "./events";
-import { convertToSecs, getTime } from "./timer";
+import { getTime, secsToTime } from "./timer";
 import { Timer } from "./components/Timer";
 import { TimerPicker } from "./components/TimerPicker";
 import { Button } from "./components/Button";
@@ -16,6 +16,8 @@ interface Timey {
   running: boolean;
   length: string;
   name: string;
+  initialTime: number;
+  timeRemaining: number;
 }
 
 const { Unsaved, Paused, Finished, Running } = TimerStates;
@@ -34,37 +36,56 @@ function Timers(props: { timers: Timey[] }) {
   // tracks current timer in view
   const [idx, setIdx] = useState(0);
   const [timers, setTimers] = useState(props.timers);
-  const [name, setName] = useState(timers[idx].name);
-
-  const [minsVal, secsVal] = timers[idx].length
+  const [mins, secs] = secsToTime(timers[idx].initialTime)
     .split(":")
-    .map((x) => Number(x));
-  const [time, setTime] = useState({ mins: minsVal, secs: secsVal });
+    .map((x) => parseInt(x));
 
   const currentlySaved = timers[idx].saved;
-  const currentLength = timers.length;
 
-  // The folowing controls the value of the timer
+  // For now, we'll restrict the timer picker to 5 timers
+  const currentLength = timers.length <= 5 ? timers.length : 5;
+
+  // Controls for the current timer are here
+
+  /**
+   * Increases current timer value by 1 minute
+   */
   function increment() {
-    if (time.mins < 100) {
-      setTime({ ...time, mins: time.mins + 1 });
+    if (mins < 100) {
+      const newTimers = Array.from(timers);
+      newTimers.splice(idx, 1, {
+        ...newTimers[idx],
+        initialTime: newTimers[idx].initialTime + 60,
+      });
+      setTimers(newTimers);
     }
   }
 
+  /**
+   * Decreases current timer value by 1 minute
+   */
   function decrement() {
-    if (time.mins > 0) {
-      setTime({ ...time, mins: time.mins - 1 });
+    if (mins > 0) {
+      const newTimers = Array.from(timers);
+      newTimers.splice(idx, 1, {
+        ...newTimers[idx],
+        initialTime: newTimers[idx].initialTime - 60,
+      });
+      setTimers(newTimers);
     }
   }
 
   // @ts-ignore { key } type
   // https://stackoverflow.com/a/57926311/10051144
   const timeKeyHandler = ({ key }) => {
+    const numberKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     if (!timers[idx].saved) {
       if (key === "38" || key === "ArrowUp") {
         increment();
       } else if (key === "40" || key === "ArrowDown") {
         decrement();
+      } else if (numberKeys.includes(key)) {
+        console.log(key);
       }
     }
   };
@@ -119,12 +140,15 @@ function Timers(props: { timers: Timey[] }) {
           <span className="timer-name">{timers[idx].name}</span>
         ) : (
           <input
+            id="timer-name"
             type="text"
             name="name"
             className="timer-name"
             onChange={(e) => {
               e.preventDefault();
-              setName(e.target.value);
+              const newTimer = [...timers];
+              newTimer.splice(idx, 1, { ...timers[idx], name: e.target.value });
+              setTimers(newTimer);
             }}
           />
         )}
@@ -134,8 +158,8 @@ function Timers(props: { timers: Timey[] }) {
         <UpBtn disabled={timers[idx].saved ? true : false} />
         <Timer
           saved={timers[idx].saved}
-          mins={time.mins}
-          secs={time.secs}
+          mins={mins}
+          secs={secs}
           name={timers[idx].name}
         />
         <DownBtn disabled={timers[idx].saved ? true : false} />
@@ -145,7 +169,8 @@ function Timers(props: { timers: Timey[] }) {
         length={currentLength}
         activeId={currentlySaved ? idx : undefined}
         upClick={function () {
-          if (idx < timers.length) {
+          // artificially limiting to 5 timers
+          if (idx < timers.length && idx < 5) {
             setIdx(idx + 1);
           }
         }}
@@ -157,22 +182,45 @@ function Timers(props: { timers: Timey[] }) {
       />
       <Toolbar
         state={calculateToolBarState()}
-        playOnClick={() => {}}
-        pauseOnClick={() => {}}
-        restartOnClick={() => {}}
-        deleteOnClick={() => {}}
-        editOnClick={() => {}}
-        saveOnClick={() => {
+        playOnClick={() => {
           const newTimers = [...timers];
-          const length = `${getTime(time.mins)}:${getTime(time.secs)}`;
+          newTimers.splice(idx, 1, { ...timers[idx], running: true });
+          setTimers(newTimers);
+        }}
+        pauseOnClick={() => {
+          const newTimers = [...timers];
+          newTimers.splice(idx, 1, { ...timers[idx], running: false });
+          setTimers(newTimers);
+        }}
+        restartOnClick={() => {
+          const newTimers = [...timers];
           newTimers.splice(idx, 1, {
-            saved: true,
-            name: name,
-            length: length,
-            running: false,
-            finished: false,
+            ...timers[idx],
+            timeRemaining: timers[idx].initialTime,
           });
           setTimers(newTimers);
+        }}
+        deleteOnClick={() => {
+          const newTimers = [...timers];
+          newTimers.splice(idx, 1);
+          setTimers(newTimers);
+        }}
+        editOnClick={() => {
+          const newTimers = [...timers];
+          newTimers.splice(idx, 1, { ...timers[idx], saved: false });
+          setTimers(newTimers);
+        }}
+        saveOnClick={() => {
+          if (mins > 0) {
+            const newTimers = [...timers];
+            const length = `${getTime(mins)}:${getTime(secs)}`;
+            newTimers.splice(idx, 1, {
+              ...timers[idx],
+              length: length,
+              saved: true,
+            });
+            setTimers(newTimers);
+          }
         }}
         newOnClick={() => {
           setTimers(
@@ -182,6 +230,8 @@ function Timers(props: { timers: Timey[] }) {
               name: "",
               running: false,
               finished: false,
+              initialTime: 0,
+              timeRemaining: 0,
             })
           );
           setIdx(idx + 1);

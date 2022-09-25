@@ -10,13 +10,13 @@ import { TimerStates } from "../TimerStates";
  * */
 function Toolbar(props: {
   state: TimerStates;
-  playOnClick: any;
-  pauseOnClick: any;
-  restartOnClick: any;
-  deleteOnClick: any;
-  editOnClick: any;
-  saveOnClick: any;
-  newOnClick: any;
+  playOnClick: React.MouseEventHandler;
+  pauseOnClick: React.MouseEventHandler;
+  restartOnClick: React.MouseEventHandler;
+  deleteOnClick: React.MouseEventHandler;
+  editOnClick: React.MouseEventHandler;
+  saveOnClick: React.MouseEventHandler;
+  newOnClick: React.MouseEventHandler;
 }) {
   /**
    * Either the delete or edit button, depending on the timer's state

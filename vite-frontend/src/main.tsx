@@ -17,6 +17,8 @@ function loadTimers() {
       name: "",
       finished: false,
       running: false,
+      initialTime: 0,
+      timeRemaining: 0,
     });
   }
   return timers;

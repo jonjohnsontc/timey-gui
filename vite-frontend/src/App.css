@@ -10,7 +10,7 @@
     "c c c c" 1fr;
   /* I have no idea how to apply this column restriction to
   the grid-template, lol  */
-  grid-template-columns: repeat(4, 190px);
+  grid-template-columns: repeat(4, 185px);
 }
 
 .timer {

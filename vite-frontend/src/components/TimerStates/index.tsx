@@ -5,4 +5,9 @@ enum TimerStates {
   Finished = "FINISHED",
 }
 
+const UNSAVED = "UNSAVED";
+const PAUSED = "PAUSED";
+const RUNNING = "RUNNING";
+const FINISHED = "FINISHED";
+
 export { TimerStates };

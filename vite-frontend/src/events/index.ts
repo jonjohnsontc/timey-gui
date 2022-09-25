@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import type { MouseEvent } from "react";
+import { TimerStates } from "../components/TimerStates";
 
 // @ts-ignore 'handler' type
 function useEventListener(eventName, handler, element = window) {
