@@ -1,6 +1,7 @@
 import "./timer.css";
+import { getTime } from "../../timer";
 
-interface TimerProps {
+interface TimerFieldProps {
   saved: boolean;
   mins: number;
   secs: number;
@@ -8,21 +9,10 @@ interface TimerProps {
 }
 
 /**
- * Component that controls a timer
+ * Component that shows the time of the current timer
  *
  * */
-function Timer(props: TimerProps) {
-  /**
-   * Translates time number to display format
-   */
-  const getTime = (num: Number) => {
-    if (num < 10) {
-      return "0" + num.toString();
-    } else {
-      return num.toString();
-    }
-  };
-
+function TimerField(props: TimerFieldProps) {
   return (
     <div className="container">
       <div className="timer-time">
@@ -34,5 +24,5 @@ function Timer(props: TimerProps) {
   );
 }
 
-export { Timer };
-export type { TimerProps };
+export { TimerField };
+export type { TimerFieldProps };

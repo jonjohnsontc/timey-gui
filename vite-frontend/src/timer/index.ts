@@ -6,6 +6,7 @@ interface Options {
   d?: string;
   ms?: string;
 }
+
 class Timer {
   running: boolean;
   length: string;
@@ -100,4 +101,4 @@ function getTime(num: Number) {
   }
 }
 
-export { convertToSecs, getTime, secsToTime };
+export { convertToSecs, getTime, secsToTime, Timer };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Timer } from "../components/Timer";
+import { TimerField } from "../components/TimerField";
 import { Toolbar } from "../components/Toolbar";
 import {
   PlayBtn,

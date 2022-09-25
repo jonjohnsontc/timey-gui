@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./App.css";
 
 import { useEventListener } from "./events";
-import { getTime, secsToTime } from "./timer";
-import { Timer } from "./components/Timer";
+import { getTime, secsToTime, Timer as TimeKeeper } from "./timer";
+import { TimerField } from "./components/TimerField";
 import { TimerPicker } from "./components/TimerPicker";
 import { Button } from "./components/Button";
 import { Toolbar } from "./components/Toolbar";
@@ -156,7 +156,7 @@ function Timers(props: { timers: Timey[] }) {
       <div className="timer-sidebar" />
       <div className="timer">
         <UpBtn disabled={timers[idx].saved ? true : false} />
-        <Timer
+        <TimerField
           saved={timers[idx].saved}
           mins={mins}
           secs={secs}

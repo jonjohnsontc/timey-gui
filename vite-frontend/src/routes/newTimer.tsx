@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import { Timer } from "../components/Timer";
+import { TimerField } from "../components/TimerField";
 import { Toolbar } from "../components/Toolbar";
 import { DeleteBtn, SaveBtn } from "../components/ToolbarBtns";
 
