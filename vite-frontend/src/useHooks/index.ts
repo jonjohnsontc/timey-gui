@@ -1,6 +1,4 @@
-import { useEffect, useRef } from "react";
-import type { MouseEvent } from "react";
-import { TimerStates } from "../components/TimerStates";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 // @ts-ignore 'handler' type
 function useEventListener(eventName, handler, element = window) {
@@ -33,18 +31,29 @@ function useEventListener(eventName, handler, element = window) {
   );
 }
 
-// function saveTimer(timers, ) {
-//   const newTimers = [...timers];
-//   const length = `${getTime(time.mins)}:${getTime(time.secs)}`;
-//   newTimers.splice(idx, 1, {
-//     saved: true,
-//     name: name,
-//     length: length,
-//     running: false,
-//     finished: false,
-//   });
-//   setTimers(newTimers);
-// }}
-// }
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-export { useEventListener };
+function useInterval(callback: () => void, delay: number | null) {
+  const savedCallback = useRef(callback);
+
+  // Remember the latest callback if it changes.
+  useIsomorphicLayoutEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    // Don't schedule if no delay is specified.
+    // Note: 0 is a valid value for delay.
+    if (!delay && delay !== 0) {
+      return;
+    }
+
+    const id = setInterval(() => savedCallback.current(), delay);
+
+    return () => clearInterval(id);
+  }, [delay]);
+}
+
+export { useEventListener, useIsomorphicLayoutEffect, useInterval };

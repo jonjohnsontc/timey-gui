@@ -32,11 +32,11 @@ function Toolbar(props: {
           />
         );
       case "RUNNING":
+        return <Button cls="toolbar-btn" icon="edit" disabled={true} />;
+      default:
         return (
           <Button cls="toolbar-btn" icon="edit" action={props.editOnClick} />
         );
-      default:
-        return <Button cls="toolbar-btn" icon="edit" disabled={true} />;
     }
   }
   /**

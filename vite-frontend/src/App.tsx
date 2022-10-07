@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 
-import { useEventListener } from "./events";
-import { getTime, secsToTime, Timer as TimeKeeper } from "./timer";
-import { TimerField } from "./components/TimerField";
+import { useEventListener, useInterval } from "./useHooks";
+import { getTime, secsToTime, Timer as TK } from "./timer";
+import { TimerField } from "./components/TimeKeeper";
 import { TimerPicker } from "./components/TimerPicker";
 import { Button } from "./components/Button";
 import { Toolbar } from "./components/Toolbar";
@@ -18,10 +18,10 @@ interface Timey {
   name: string;
   initialTime: number;
   timeRemaining: number;
+  timer?: TK;
 }
 
 const { Unsaved, Paused, Finished, Running } = TimerStates;
-
 /**
  * A view that organizes all timers into a list, and adds new timers to the end
  * of it. It is primarily made out of three components, the Timer, TimerPicker, and
@@ -35,17 +35,36 @@ function Timers(props: { timers: Timey[] }) {
   // Declaring all the state that is controlled within the component
   // tracks current timer in view
   const [idx, setIdx] = useState(0);
-  const [timers, setTimers] = useState(props.timers);
+  const [timers, setTimers] = useState<Timey[]>(props.timers);
+  const [time, setTime] = useState(timers[idx].length);
+
+  // const [time, setTime] = (function () {
+  //   if (timers[idx].timer) {
+  //     return useState(timers[idx].timer!.time);
+  //   } else {
+  //     return useState(timers[idx].length);
+  //   }
+  // })();
+
   const [mins, secs] = secsToTime(timers[idx].initialTime)
     .split(":")
     .map((x) => parseInt(x));
-
+  const derivedMins = (function () {
+    if (timers[idx].timer) {
+      const val = timers[idx].timer!.time;
+      return val.split(":").map((x) => parseInt(x))[0];
+    }
+  })();
+  const derivedSecs = (function () {
+    if (timers[idx].timer) {
+      const val = timers[idx].timer!.time;
+      return val.split(":").map((x) => parseInt(x))[1];
+    }
+  })();
   const currentlySaved = timers[idx].saved;
 
   // For now, we'll restrict the timer picker to 5 timers
   const currentLength = timers.length <= 5 ? timers.length : 5;
-
-  // Controls for the current timer are here
 
   /**
    * Increases current timer value by 1 minute
@@ -86,6 +105,14 @@ function Timers(props: { timers: Timey[] }) {
         decrement();
       } else if (numberKeys.includes(key)) {
         console.log(key);
+      }
+    } else {
+      if (key === "n") {
+        newTimer();
+      } else if (key === "p" && timers[idx].running) {
+        pause();
+      } else if (key === "p" && !timers[idx].running) {
+        play();
       }
     }
   };
@@ -133,6 +160,105 @@ function Timers(props: { timers: Timey[] }) {
     }
   }
 
+  // OnClick fn's
+
+  function newTimer() {
+    if (timers.length < 5) {
+      setTimers(
+        timers.concat({
+          saved: false,
+          length: "00:00",
+          name: "",
+          running: false,
+          finished: false,
+          initialTime: 0,
+          timeRemaining: 0,
+        })
+      );
+      setIdx(idx + 1);
+    }
+  }
+
+  function del() {
+    const newTimers = [...timers];
+    newTimers.splice(idx, 1);
+    setTimers(newTimers);
+  }
+
+  function edit() {
+    const newTimers = [...timers];
+    newTimers.splice(idx, 1, {
+      ...timers[idx],
+      saved: false,
+      timer: undefined,
+    });
+    setTimers(newTimers);
+  }
+
+  function pause() {
+    const newTimers = [...timers];
+    newTimers.splice(idx, 1, { ...timers[idx], running: false });
+    if (timers[idx].timer) {
+      newTimers[idx].timer!.stop();
+    }
+    setTimers(newTimers);
+  }
+
+  function play() {
+    const newTimers = [...timers];
+    newTimers.splice(idx, 1, { ...timers[idx], running: true });
+    if (newTimers[idx].timer) {
+      newTimers[idx].timer!.tick();
+    }
+    setTimers(newTimers);
+  }
+
+  function restart() {
+    const newTimers = [...timers];
+    newTimers.splice(idx, 1, {
+      ...timers[idx],
+      timeRemaining: timers[idx].initialTime,
+    });
+    if (newTimers[idx].timer) {
+      newTimers[idx].timer!.restart();
+    }
+    setTimers(newTimers);
+  }
+
+  function save() {
+    if (mins > 0) {
+      const newTimers = [...timers];
+      const length = `${getTime(mins)}:${getTime(secs)}`;
+      newTimers.splice(idx, 1, {
+        ...timers[idx],
+        length: length,
+        saved: true,
+        timer: new TK(length, timers[idx].name),
+      });
+      setTimers(newTimers);
+    }
+  }
+
+  if (timers[idx].saved) {
+    if (!timers[idx].timer) {
+      const newTimers = [...timers];
+      newTimers.splice(idx, 1, {
+        ...timers[idx],
+        timer: new TK(timers[idx].length, timers[idx].name),
+      });
+      setTimers(newTimers);
+    }
+  }
+
+  useInterval(
+    () => {
+      if (timers[idx].timer) {
+        setTime(timers[idx].timer!.time);
+      }
+    },
+    timers[idx].running ? 1000 : null
+  );
+
   return (
     <div className="timers">
       <div className="timer-header">
@@ -144,10 +270,14 @@ function Timers(props: { timers: Timey[] }) {
             type="text"
             name="name"
             className="timer-name"
+            defaultValue={timers[idx].name}
             onChange={(e) => {
               e.preventDefault();
               const newTimer = [...timers];
-              newTimer.splice(idx, 1, { ...timers[idx], name: e.target.value });
+              newTimer.splice(idx, 1, {
+                ...timers[idx],
+                name: e.target.value,
+              });
               setTimers(newTimer);
             }}
           />
@@ -158,8 +288,8 @@ function Timers(props: { timers: Timey[] }) {
         <UpBtn disabled={timers[idx].saved ? true : false} />
         <TimerField
           saved={timers[idx].saved}
-          mins={mins}
-          secs={secs}
+          mins={derivedMins ? derivedMins : mins}
+          secs={derivedSecs ? derivedSecs : secs}
           name={timers[idx].name}
         />
         <DownBtn disabled={timers[idx].saved ? true : false} />
@@ -169,73 +299,25 @@ function Timers(props: { timers: Timey[] }) {
         length={currentLength}
         activeId={currentlySaved ? idx : undefined}
         upClick={function () {
-          // artificially limiting to 5 timers
-          if (idx < timers.length && idx < 5) {
-            setIdx(idx + 1);
+          if (idx > 0) {
+            setIdx(idx - 1);
           }
         }}
         downClick={function () {
-          if (idx > timers.length) {
-            setIdx(idx - 1);
+          if (idx != timers.length - 1) {
+            setIdx(idx + 1);
           }
         }}
       />
       <Toolbar
         state={calculateToolBarState()}
-        playOnClick={() => {
-          const newTimers = [...timers];
-          newTimers.splice(idx, 1, { ...timers[idx], running: true });
-          setTimers(newTimers);
-        }}
-        pauseOnClick={() => {
-          const newTimers = [...timers];
-          newTimers.splice(idx, 1, { ...timers[idx], running: false });
-          setTimers(newTimers);
-        }}
-        restartOnClick={() => {
-          const newTimers = [...timers];
-          newTimers.splice(idx, 1, {
-            ...timers[idx],
-            timeRemaining: timers[idx].initialTime,
-          });
-          setTimers(newTimers);
-        }}
-        deleteOnClick={() => {
-          const newTimers = [...timers];
-          newTimers.splice(idx, 1);
-          setTimers(newTimers);
-        }}
-        editOnClick={() => {
-          const newTimers = [...timers];
-          newTimers.splice(idx, 1, { ...timers[idx], saved: false });
-          setTimers(newTimers);
-        }}
-        saveOnClick={() => {
-          if (mins > 0) {
-            const newTimers = [...timers];
-            const length = `${getTime(mins)}:${getTime(secs)}`;
-            newTimers.splice(idx, 1, {
-              ...timers[idx],
-              length: length,
-              saved: true,
-            });
-            setTimers(newTimers);
-          }
-        }}
-        newOnClick={() => {
-          setTimers(
-            timers.concat({
-              saved: false,
-              length: "00:00",
-              name: "",
-              running: false,
-              finished: false,
-              initialTime: 0,
-              timeRemaining: 0,
-            })
-          );
-          setIdx(idx + 1);
-        }}
+        playOnClick={() => play()}
+        pauseOnClick={() => pause()}
+        restartOnClick={() => restart()}
+        deleteOnClick={() => del()}
+        editOnClick={() => edit()}
+        saveOnClick={() => save()}
+        newOnClick={() => newTimer()}
       />
     </div>
   );

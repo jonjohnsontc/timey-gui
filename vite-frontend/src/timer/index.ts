@@ -1,12 +1,3 @@
-// Moved Options and calculateStartTime from the timey deno repo
-interface Options {
-  m?: string;
-  s?: string;
-  h?: string;
-  d?: string;
-  ms?: string;
-}
-
 class Timer {
   running: boolean;
   length: string;
@@ -21,7 +12,7 @@ class Timer {
     this.timeRemaining = convertToSecs(length);
   }
 
-  async tick() {
+  tick() {
     if (!this.id) {
       this.running = true;
       this.id = setInterval(() => {
@@ -35,38 +26,19 @@ class Timer {
     }
   }
 
-  async restart() {
+  restart() {
     this.timeRemaining = convertToSecs(this.length);
-    await this.tick();
+    this.tick();
   }
 
   stop() {
     clearInterval(this.id);
+    this.id = undefined;
   }
 
   get time() {
-    return;
+    return secsToTime(this.timeRemaining);
   }
-}
-
-function calculateStartTime(options: Options): number {
-  let time = 0;
-  if (options.s) {
-    time += parseInt(options.s);
-  }
-  if (options.m) {
-    time += parseInt(options.m) * 60;
-  }
-  if (options.h) {
-    time += parseInt(options.h) * 60 * 60;
-  }
-  if (options.d) {
-    time += parseInt(options.d) * 60 * 60 * 24;
-  }
-  if (options.ms) {
-    time += parseInt(options.ms) / 1000;
-  }
-  return time;
 }
 
 function convertToSecs(time: string) {
