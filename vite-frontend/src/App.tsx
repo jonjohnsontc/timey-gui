@@ -38,14 +38,6 @@ function Timers(props: { timers: Timey[] }) {
   const [timers, setTimers] = useState<Timey[]>(props.timers);
   const [time, setTime] = useState(timers[idx].length);
 
-  // const [time, setTime] = (function () {
-  //   if (timers[idx].timer) {
-  //     return useState(timers[idx].timer!.time);
-  //   } else {
-  //     return useState(timers[idx].length);
-  //   }
-  // })();
-
   const [mins, secs] = secsToTime(timers[idx].initialTime)
     .split(":")
     .map((x) => parseInt(x));
@@ -61,7 +53,6 @@ function Timers(props: { timers: Timey[] }) {
       return val.split(":").map((x) => parseInt(x))[1];
     }
   })();
-  const currentlySaved = timers[idx].saved;
 
   // For now, we'll restrict the timer picker to 5 timers
   const currentLength = timers.length <= 5 ? timers.length : 5;
@@ -259,10 +250,14 @@ function Timers(props: { timers: Timey[] }) {
     timers[idx].running ? 1000 : null
   );
 
+  if (Notification.permission != "granted") {
+    Notification.requestPermission();
+  }
+
   return (
     <div className="timers">
       <div className="timer-header">
-        {currentlySaved ? (
+        {timers[idx].saved ? (
           <span className="timer-name">{timers[idx].name}</span>
         ) : (
           <input
@@ -297,7 +292,7 @@ function Timers(props: { timers: Timey[] }) {
       <TimerPicker
         disabled={currentLength < 2 ? true : false}
         length={currentLength}
-        activeId={currentlySaved ? idx : undefined}
+        activeId={timers[idx].saved ? idx : undefined}
         upClick={function () {
           if (idx > 0) {
             setIdx(idx - 1);
