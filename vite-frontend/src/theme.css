@@ -1,0 +1,178 @@
+/* 
+  Inspiration for this was taken from https://web.dev/building-a-color-scheme
+
+  The first section consists of defining different colors for the app
+
+*/
+
+* {
+  /* The primary color of the app */
+  --bg: hsl(200, 100%, 97%);
+  --bg-hue: 200;
+  --bg-saturation: 100%;
+  --bg-darkness: 97%;
+
+  /* dark theme */
+  --bg-dark: hsl(var(--bg-hue) var(--bg-saturation) var(--bg-darkness));
+  --txt1-dark: hsl(var(--bg-hue) var(--bg-saturation) 10%);
+  --txt2-dark: hsl(var(--bg-hue) 30% 30%);
+  --surface1-dark: hsl(var(--bg-hue) 25% 90%);
+  --surface2-dark: hsl(var(--bg-hue) 20% 99%);
+  --surface3-dark: hsl(var(--bg-hue) 20% 92%);
+  --surface4-dark: hsl(var(--bg-hue) 20% 85%);
+  --surface-shadow-dark: var(--bg-hue) 10% 20%;
+  --shadow-strength-dark: 0.02;
+
+  /* dark theme */
+  --bg-dark: hsl(
+    var(--bg-hue) calc(var(--bg-saturation) / 2) calc(var(--bg-darkness) / 1.5)
+  );
+  --txt1-dark: hsl(var(--bg-hue) 15% 85%);
+  --txt2-dark: hsl(var(--bg-hue) 5% 65%);
+  --surface1-dark: hsl(var(--bg-hue) 10% 10%);
+  --surface2-dark: hsl(var(--bg-hue) 10% 15%);
+  --surface3-dark: hsl(var(--bg-hue) 5% 20%);
+  --surface4-dark: hsl(var(--bg-hue) 5% 25%);
+  --surface-shadow-dark: var(--bg-hue) 50% 3%;
+  --shadow-strength-dark: 0.8;
+
+  /* sunshine/yellow theme */
+  --yellow: hsl(62, 93%, 84%);
+  --yellow-hue: 62;
+  --yellow-saturation: 93%;
+  --yellow-darkness: 84%;
+
+  --txt1-yellow: hsl(var(--yellow-hue) var(--yellow-saturation) 10%);
+  --txt2-yellow: hsl(var(--yellow-hue) 30% 30%);
+  --surface1-yellow: hsl(var(--yellow-hue) 25% 90%);
+  --surface2-yellow: hsl(var(--yellow-hue) 20% 99%);
+  --surface3-yellow: hsl(var(--yellow-hue) 20% 92%);
+  --surface4-yellow: hsl(var(--yellow-hue) 20% 85%);
+  --surface-shadow-yellow: var(--yellow-hue) 10% 20%;
+
+  /* purple theme */
+  --purple: hsl(268, 81%, 83%);
+  --purple-hue: 268;
+  --purple-saturation: 81%;
+  --purple-darkness: 83%;
+
+  --txt1-purple: hsl(var(--purple-hue) var(--purple-saturation) 10%);
+  --txt2-purple: hsl(var(--purple-hue) 30% 30%);
+  --surface1-purple: hsl(var(--purple-hue) 25% 90%);
+  --surface2-purple: hsl(var(--purple-hue) 20% 99%);
+  --surface3-purple: hsl(var(--purple-hue) 20% 92%);
+  --surface4-purple: hsl(var(--purple-hue) 20% 85%);
+  --surface-shadow-purple: var(--purple-hue) 10% 20%;
+
+  /* red theme */
+  --red: hsl(0, 81%, 83%);
+  --red-hue: 0;
+  --red-saturation: 81%;
+  --red-darkness: 83%;
+
+  --txt1-red: hsl(var(--red-hue) var(--red-saturation) 10%);
+  --txt2-red: hsl(var(--red-hue) 30% 30%);
+  --surface1-red: hsl(var(--red-hue) 25% 90%);
+  --surface2-red: hsl(var(--red-hue) 20% 99%);
+  --surface3-red: hsl(var(--red-hue) 20% 92%);
+  --surface4-red: hsl(var(--red-hue) 20% 85%);
+  --surface-shadow-red: var(--red-hue) 10% 20%;
+
+  /* green theme */
+  --green: hsl(125, 81%, 83%);
+  --green-hue: 125;
+  --green-saturation: 81%;
+  --green-darkness: 83%;
+
+  --txt1-green: hsl(var(--green-hue) var(--green-saturation) 10%);
+  --txt2-green: hsl(var(--green-hue) 30% 30%);
+  --surface1-green: hsl(var(--green-hue) 25% 90%);
+  --surface2-green: hsl(var(--green-hue) 20% 99%);
+  --surface3-green: hsl(var(--green-hue) 20% 92%);
+  --surface4-green: hsl(var(--green-hue) 20% 85%);
+  --surface-shadow-green: var(--green-hue) 10% 20%;
+}
+
+/* 
+  Here, we're defining themes for the timer app
+ */
+:root {
+  color-scheme: light;
+  --txt1: var(--txt2-light);
+  --txt2: var(--txt1-light);
+  --surface1: var(--surface2-light);
+  --surface2: var(--surface1-light);
+  --surface-shadow: var(--surface-shadow-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --txt1: var(--txt2-dark);
+    --txt2: var(--txt1-dark);
+    --surface1: var(--surface2-dark);
+    --surface2: var(--surface1-dark);
+    --surface-shadow: var(--surface-shadow-dark);
+  }
+}
+
+[color-scheme="dark"] {
+  color-scheme: dark;
+  --txt1: var(--txt2-dark);
+  --txt2: var(--txt1-dark);
+  --surface1: var(--surface2-dark);
+  --surface2: var(--surface1-dark);
+  --surface-shadow: var(--surface-shadow-dark);
+}
+
+[color-scheme="yellow"] {
+  --txt1: var(--txt2-yellow);
+  --txt2: var(--txt1-yellow);
+  --surface1: var(--surface2-yellow);
+  --surface2: var(--surface1-yellow);
+  --surface-shadow: var(--surface-shadow-yellow);
+}
+
+[color-scheme="purple"] {
+  --txt1: var(--txt2-purple);
+  --txt2: var(--txt1-purple);
+  --surface1: var(--surface2-purple);
+  --surface2: var(--surface1-purple);
+  --surface-shadow: var(--surface-shadow-purple);
+}
+
+[color-scheme="red"] {
+  --txt1: var(--txt2-red);
+  --txt2: var(--txt1-red);
+  --surface1: var(--surface2-red);
+  --surface2: var(--surface1-red);
+  --surface-shadow: var(--surface-shadow-red);
+}
+
+[color-scheme="green"] {
+  --txt1: var(--txt2-green);
+  --txt2: var(--txt1-green);
+  --surface1: var(--surface2-green);
+  --surface2: var(--surface1-green);
+  --surface-shadow: var(--surface-shadow-green);
+}
+
+/* 
+
+  These application of themeing is done here
+
+*/
+
+html {
+  background-color: var(--surface2);
+  color: var(--txt1);
+}
+
+input {
+  background-color: var(--surface2);
+  color: var(--txt1);
+}
+
+button {
+  color: var(--txt1);
+}

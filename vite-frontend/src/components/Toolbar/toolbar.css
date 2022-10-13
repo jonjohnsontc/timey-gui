@@ -6,4 +6,6 @@
 .toolbar-btn {
   width: 3em;
   height: 3em;
+  fill: currentColor;
+  color: var(--txt1);
 }

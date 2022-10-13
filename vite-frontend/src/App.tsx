@@ -171,9 +171,11 @@ function Timers(props: { timers: Timey[] }) {
   }
 
   function del() {
-    const newTimers = [...timers];
-    newTimers.splice(idx, 1);
-    setTimers(newTimers);
+    if (timers.length > 1) {
+      const newTimers = [...timers];
+      newTimers.splice(idx, 1);
+      setTimers(newTimers);
+    }
   }
 
   function edit() {

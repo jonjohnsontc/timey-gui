@@ -1,3 +1,5 @@
+@import "./theme.css";
+
 .timers {
   display: grid;
   margin-top: 4vh;
@@ -9,7 +11,7 @@
     "z a a b" 3fr
     "c c c c" 1fr;
   /* I have no idea how to apply this column restriction to
-  the grid-template, lol  */
+  the grid-template */
   grid-template-columns: repeat(4, 185px);
 }
 
@@ -43,4 +45,15 @@ in the grid. */
 .time-button {
   width: 3em;
   height: 3em;
+}
+
+/* Classes to apply to get animations going for an icon */
+.ping {
+  -webkit-animation: ping 0.2s ease-in-out 1 both;
+  animation: ping 0.2s ease-in-out 1 both;
+}
+
+.pulsate-bck {
+  -webkit-animation: pulsate-bck 100ms ease-out 1 both;
+  animation: pulsate-bck 100ms ease-out 1 both;
 }

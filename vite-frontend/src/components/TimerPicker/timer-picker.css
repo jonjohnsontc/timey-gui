@@ -10,7 +10,7 @@
 
 /* standard dot in the timer-picker */
 .dot {
-  color: rgba(0, 0, 0, 0.333);
+  color: var(--txt1);
   width: 0.7rem;
   height: 0.7rem;
 }
@@ -21,7 +21,7 @@
 }
 
 .dot-active {
-  color: rgba(0, 0, 0, 0.97);
+  color: var(--txt2);
 }
 
 .dot-array {
@@ -38,7 +38,7 @@
 }
 
 :disabled .timer-picker-up {
-  /* color: transparent; */
+  color: transparent;
 }
 
 .timer-picker-down {
@@ -48,7 +48,7 @@
 }
 
 :disabled .timer-picker-down {
-  /* color: transparent; */
+  color: transparent;
 }
 
 .pulsate-fwd {

@@ -4,16 +4,6 @@
   background-color: transparent;
 }
 
-.ping {
-  -webkit-animation: ping 0.2s ease-in-out 1 both;
-  animation: ping 0.2s ease-in-out 1 both;
-}
-
-.pulsate-bck {
-  -webkit-animation: pulsate-bck 100ms ease-out 1 both;
-  animation: pulsate-bck 100ms ease-out 1 both;
-}
-
 .all-timers-btn {
   width: 3.5em;
 }

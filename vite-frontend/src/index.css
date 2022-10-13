@@ -20,7 +20,7 @@ input {
   -webkit-appearence: none;
   outline: none;
   border: none;
-  background-color: aliceblue;
+  /* background-color: aliceblue; */
 }
 
 .container {
